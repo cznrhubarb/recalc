@@ -1,0 +1,1 @@
+export const AmountTypes = { Percent: "percent", Dollars: "dollars" };

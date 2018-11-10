@@ -1,0 +1,48 @@
+
+- Integrate with funding matrix
+-   Pencil out how to handle percentage funding amounts for a variable purchase price
+-   Calc out second funding matrix function
+-   Use the funding matrix functions in the Solver
+-   Determine if there are other use cases to utilize the funding matrix and what functions they would be
+
+- Solved values should probably be stored in state so I don't have to solve in several different views...
+- Last column needs to take into account that some of the values may be solved already
+- Re-add the ability to switch amount types
+- Integrate number formatting on first column
+
+
+
+
+
+//TODO:
+  If there are multiple parameters that are requirements, need to run multiple times with each minima/maxima
+    and select the option that satisfies all of them. If no solution satisfies all requirements,
+    notify the user that they will have to change parameters
+  Need to integrate with funding matrix...
+  Funding matrix usage breakdown
+
+  To solve funding matrix:
+    try entire first funding option. If that is too much money, then it should be a calculus (or perhaps arithmetic?)
+      equation to find out where the stop point is on the line
+    if it is not enough money, save that amount and try the next funding option + the entire accumulated amount
+
+Bugs: 
+
+
+=====================================================================================================================================================
+
+// My current use case is...
+//  I want to enter exact #s for Net Rent, Repairs, HOA, PropMan, Rep/Main, CapEx, Vacancy, Taxes, Insurance, Other expenses/income
+//  I want to enter minimum #s for CoCRoI, ProfitPerMonth
+//  I want to see exact #s for max purchase price, CoCRoI, ProfitPerMonth, NOI, Operating expenses, CapRate
+
+
+// Solution user flow 1:
+//  I want to first decide which parameters I want to see exact numbers for (Looks like a list of names and checkboxes)
+//  Then I want to decide which parameters I want to enter minimum/maximum numbers for (These can only be selected from those checked off in step 1)
+//  Then I want to be told what numbers I need to fill in
+
+// Solution user flow 2:
+//  I check the boxes for which parameters I want to see exact numbers for
+//  The textboxes I need to fill in to derive that number are marked as such
+//   and/or have tooltips that give options for what combinations can be filled out to derive them
