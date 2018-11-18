@@ -22,8 +22,8 @@ const parameterEquations = {
     "arv - purchasePrice - estimatedRepairs - closingCosts"
   ],
   purchasePrice: [
-    // if I have desired CoC% (or CapEx) and NET rent, I can solve for purchase price
-    "profitPerMonth * 12 / cashOnCashRoi",
+    // if I have desired CoC% and net profit, I can solve for purchase price
+    "profitPerMonth * 12 / (cashOnCashRoi / 100)",
     "noi / (capRate / 100)",
     // if I have equity after repairs, estimated repairs, and ARV, I can solve for purchase price
     "arv - equityAfterRepairs - estimatedRepairs - closingCosts"

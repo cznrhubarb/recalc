@@ -31,7 +31,13 @@ class VariableSelector extends Component {
     let self = this;
     $(function() {
       $(".var-selector ul.checked-list-box li").on("click", e => {
-        self.props.onCheck.call(self, e.target.attributes.tag.nodeValue, Array.from(e.target.classList).includes('active'));
+        // The user can click on the list item itself or the check box inside of it,
+        //  which changes where we have to pull the tag from.
+        let listItem = e.target;
+        if (e.target.attributes.tag === undefined) {
+          listItem = e.target.parentNode;
+        }
+        self.props.onCheck.call(self, listItem.attributes.tag.nodeValue, Array.from(listItem.classList).includes('active'));
       });
     });
 

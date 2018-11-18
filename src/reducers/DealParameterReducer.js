@@ -33,8 +33,9 @@ const initialDealParametersState = {
 
 const dealParameters = createReducer(initialDealParametersState, {
   [DealParameterActions.UPDATE_PARAMETER_AMOUNT]: (state, action) => {
+    let newValue = action.newValue === undefined ? undefined : Number(action.newValue);
     return update(state, {
-      [action.parameterName]: { amount: { $set: action.newValue } }
+      [action.parameterName]: { amount: { $set: newValue } }
     });
   },
   [DealParameterActions.SET_PARAMETER_DERIVED]: (state, action) => {
@@ -48,8 +49,10 @@ const dealParameters = createReducer(initialDealParametersState, {
     });
   },
   [DealParameterActions.SET_MIN_MAX]: (state, action) => {
+    let min = action.min === undefined ? undefined : Number(action.min);
+    let max = action.max === undefined ? undefined : Number(action.max);
     return update(state, {
-      [action.parameterName]: { min: { $set: action.min }, max: { $set: action.max } }
+      [action.parameterName]: { min: { $set: min }, max: { $set: max } }
     });
   }
 });

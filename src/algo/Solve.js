@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import Parser from 'expr-eval';
 import { parameterEquations, percentEquations } from './Equations';
 import { AmountTypes } from '../model/Types';
@@ -87,8 +88,9 @@ const solve = function(parameterNames, dealParameters, fundingMatrix) {
     .filter(name => dealParameters[name].min !== undefined || dealParameters[name].max !== undefined);
   
   let paramSets = minMaxParams.map(mmp => {
-    let paramCopies = Object.assign({}, dealParameters);
-    paramCopies[mmp].amount = dealParameters[mmp].min !== undefined ? dealParameters[mmp].min : dealParameters[mmp].max;
+    let paramCopies = update(dealParameters, {
+      [mmp] : { amount: { $set: dealParameters[mmp].min !== undefined ? dealParameters[mmp].min : dealParameters[mmp].max } } 
+    });
     let mappedParams = flattenDealParameters(paramCopies);
 
     let calculatedDollarParams = calculateDollarValueOfPercentParams(mappedParams, dealParameters);
@@ -112,22 +114,34 @@ const solve = function(parameterNames, dealParameters, fundingMatrix) {
     return mappedParams;
   });
 
-  console.log(paramSets);
+  // console.log("All paramsets~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+  // console.log(paramSets);
 
   // Now find out which of paramSets matches all constraints
-  //  Should only be one, I think
+  //  Should only be one or none, I think
   let bestMappedParams = paramSets.find(ps => {
+    console.log("--> paramset");
+    console.log(ps);
     return minMaxParams.every(mmp => {
+      console.log("====> minmaxparam");
       console.log(mmp);
+      console.log("====> dealparameter for minmaxparam");
       console.log(dealParameters[mmp]);
+      console.log("====> param for minmaxparam");
       console.log(ps[mmp]);
+      console.log("====> Min is defined");
       console.log(dealParameters[mmp].min !== undefined);
-      console.log(ps[mmp].amount >= dealParameters[mmp].min);
-      return (dealParameters[mmp].min !== undefined && ps[mmp] >= dealParameters[mmp].min)
-        || (dealParameters[mmp].max !== undefined && ps[mmp] <= dealParameters[mmp].max);
+      console.log("====> paramset is greater than require min");
+      console.log(ps[mmp], dealParameters[mmp].min);
+      console.log(ps[mmp] >= dealParameters[mmp].min);
+      
+      return ps[mmp]
+        && ((dealParameters[mmp].min !== undefined && ps[mmp] >= dealParameters[mmp].min)
+        ||  (dealParameters[mmp].max !== undefined && ps[mmp] <= dealParameters[mmp].max));
     });
   }) || {};
 
+  console.log('?????????????????????????"Solved" Params:????????????????????????');
   console.log(bestMappedParams);
   return bestMappedParams;
 };
