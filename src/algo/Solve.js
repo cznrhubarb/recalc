@@ -114,35 +114,16 @@ const solve = function(parameterNames, dealParameters, fundingMatrix) {
     return mappedParams;
   });
 
-  // console.log("All paramsets~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-  // console.log(paramSets);
-
   // Now find out which of paramSets matches all constraints
   //  Should only be one or none, I think
   let bestMappedParams = paramSets.find(ps => {
-    console.log("--> paramset");
-    console.log(ps);
     return minMaxParams.every(mmp => {
-      console.log("====> minmaxparam");
-      console.log(mmp);
-      console.log("====> dealparameter for minmaxparam");
-      console.log(dealParameters[mmp]);
-      console.log("====> param for minmaxparam");
-      console.log(ps[mmp]);
-      console.log("====> Min is defined");
-      console.log(dealParameters[mmp].min !== undefined);
-      console.log("====> paramset is greater than require min");
-      console.log(ps[mmp], dealParameters[mmp].min);
-      console.log(ps[mmp] >= dealParameters[mmp].min);
-      
       return ps[mmp]
         && ((dealParameters[mmp].min !== undefined && ps[mmp] >= dealParameters[mmp].min)
         ||  (dealParameters[mmp].max !== undefined && ps[mmp] <= dealParameters[mmp].max));
     });
   }) || {};
 
-  console.log('?????????????????????????"Solved" Params:????????????????????????');
-  console.log(bestMappedParams);
   return bestMappedParams;
 };
 
